@@ -17,34 +17,34 @@
       </template>
       <template #bottom>
         <div>
-          {{ `队伍人数: ${team.hasJoinNum}/${team.maxNum}` }}
+          {{ `Team Members: ${team.hasJoinNum}/${team.maxNum}` }}
         </div>
         <div v-if="team.expireTime">
-          {{ '过期时间: ' + team.expireTime }}
+          {{ 'Expiration Time: ' + team.expireTime }}
         </div>
         <div>
-          {{ '创建时间: ' + team.createTime }}
+          {{ 'Creation Time: ' + team.createTime }}
         </div>
       </template>
       <template #footer>
         <van-button size="small" type="primary" v-if="team.userId !== currentUser?.id && !team.hasJoin" plain
                     @click="preJoinTeam(team)">
-          加入队伍
+          Join Team
         </van-button>
         <van-button v-if="team.userId === currentUser?.id" size="small" plain
-                    @click="doUpdateTeam(team.id)">更新队伍
+                    @click="doUpdateTeam(team.id)">Update Team
         </van-button>
-        <!-- 仅加入队伍可见 -->
+        <!-- Visible only for team members -->
         <van-button v-if="team.userId !== currentUser?.id && team.hasJoin" size="small" plain
-                    @click="doQuitTeam(team.id)">退出队伍
+                    @click="doQuitTeam(team.id)">Quit Team
         </van-button>
         <van-button v-if="team.userId === currentUser?.id" size="small" type="danger" plain
-                    @click="doDeleteTeam(team.id)">解散队伍
+                    @click="doDeleteTeam(team.id)">Dismiss Team
         </van-button>
       </template>
     </van-card>
-    <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
-      <van-field v-model="password" placeholder="请输入密码"/>
+    <van-dialog v-model:show="showPasswordDialog" title="Please enter password" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
+      <van-field v-model="password" placeholder="Please enter password"/>
     </van-dialog>
   </div>
 
@@ -95,7 +95,7 @@ const doJoinCancel = () => {
 }
 
 /**
- * 加入队伍
+ * Join a team
  */
 const doJoinTeam = async () => {
   if (!joinTeamId.value) {
@@ -106,15 +106,15 @@ const doJoinTeam = async () => {
     password: password.value
   });
   if (res?.code === 0) {
-    Toast.success('加入成功');
+    Toast.success('Joined successfully');
     doJoinCancel();
   } else {
-    Toast.fail('加入失败' + (res.description ? `，${res.description}` : ''));
+    Toast.fail('Failed to join' + (res.description ? `, ${res.description}` : ''));
   }
 }
 
 /**
- * 跳转至更新队伍页
+ * Redirect to update team page
  * @param id
  */
 const doUpdateTeam = (id: number) => {
@@ -127,7 +127,7 @@ const doUpdateTeam = (id: number) => {
 }
 
 /**
- * 退出队伍
+ * Quit a team
  * @param id
  */
 const doQuitTeam = async (id: number) => {
@@ -135,14 +135,14 @@ const doQuitTeam = async (id: number) => {
     teamId: id
   });
   if (res?.code === 0) {
-    Toast.success('操作成功');
+    Toast.success('Operation successful');
   } else {
-    Toast.fail('操作失败' + (res.description ? `，${res.description}` : ''));
+    Toast.fail('Operation failed' + (res.description ? `, ${res.description}` : ''));
   }
 }
 
 /**
- * 解散队伍
+ * Dismiss a team
  * @param id
  */
 const doDeleteTeam = async (id: number) => {
@@ -150,9 +150,9 @@ const doDeleteTeam = async (id: number) => {
     id,
   });
   if (res?.code === 0) {
-    Toast.success('操作成功');
+    Toast.success('Operation successful');
   } else {
-    Toast.fail('操作失败' + (res.description ? `，${res.description}` : ''));
+    Toast.fail('Operation failed' + (res.description ? `, ${res.description}` : ''));
   }
 }
 
